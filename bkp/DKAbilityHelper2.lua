@@ -64,7 +64,7 @@ local function HasBloodPlague(unit)
 end
 
 local abilities = {
-    ["Mind Freeze"] = { spellId = 47528, icon = GetSpellTexture(47528), condition = function()
+    ["Mind Freeze"] = { spellId = 47528, color = { r = 1, g = 0, b = 0 }, priority = 1, condition = function()
         local target = "target"
         if UnitExists(target) and UnitCanAttack("player", target) and not UnitIsDead(target) then
             local casting = UnitCastingInfo(target)
@@ -72,70 +72,70 @@ local abilities = {
             return casting or channeling
         end
         return false
-    end, priority = 1 },
-    ["Rune Tap"] = { spellId = 48982, icon = GetSpellTexture(48982), condition = function()
+    end },
+    ["Rune Tap"] = { spellId = 48982, color = { r = 0, g = 1, b = 0 }, priority = 2, condition = function()
         return UnitHealth("player") / UnitHealthMax("player") < 0.30 or AuraUtil.FindAuraByName("Will of the Necropolis", "player")
-    end, priority = 2 },
-    ["Icebound Fortitude"] = { spellId = 48792, icon = GetSpellTexture(48792), condition = function()
+    end },
+    ["Icebound Fortitude"] = { spellId = 48792, color = { r = 0, g = 0, b = 1 }, priority = 3, condition = function()
         return UnitHealth("player") / UnitHealthMax("player") < 0.30
-    end, priority = 3 },
-    ["Vampiric Blood"] = { spellId = 55233, icon = GetSpellTexture(55233), condition = function()
+    end },
+    ["Vampiric Blood"] = { spellId = 55233, color = { r = 0.5, g = 0, b = 0.5 }, priority = 4, condition = function()
         return UnitHealth("player") / UnitHealthMax("player") < 0.25
-    end, priority = 4 },
-    ["Raise Dead"] = { spellId = 46584, icon = GetSpellTexture(46584), condition = function()
+    end },
+    ["Raise Dead"] = { spellId = 46584, color = { r = 1, g = 1, b = 0 }, priority = 5, condition = function()
         return UnitHealth("player") / UnitHealthMax("player") < 0.40
-    end, priority = 5 },
-    ["Death Pact"] = { spellId = 48743, icon = GetSpellTexture(48743), condition = function()
+    end },
+    ["Death Pact"] = { spellId = 48743, color = { r = 1, g = 0, b = 1 }, priority = 6, condition = function()
         return UnitHealth("player") / UnitHealthMax("player") < 0.40 and UnitExists("pet")
-    end, priority = 6 },
-    ["Horn of Winter"] = { spellId = 57330, icon = GetSpellTexture(57330), condition = function()
+    end },
+    ["Horn of Winter"] = { spellId = 57330, color = { r = 0, g = 1, b = 1 }, priority = 7, condition = function()
         return not AuraUtil.FindAuraByName("Horn of Winter", "player")
-    end, priority = 7 },
-    ["Bone Shield"] = { spellId = 49222, icon = GetSpellTexture(49222), condition = function()
+    end },
+    ["Bone Shield"] = { spellId = 49222, color = { r = 0.5, g = 0.5, b = 0.5 }, priority = 8, condition = function()
         return not AuraUtil.FindAuraByName("Bone Shield", "player")
-    end, priority = 8 },
-    ["Dancing Rune Weapon"] = { spellId = 49028, icon = GetSpellTexture(49028), condition = function()
+    end },
+    ["Dancing Rune Weapon"] = { spellId = 49028, color = { r = 0.3, g = 0.3, b = 0.3 }, priority = 9, condition = function()
         return UnitPower("player") >= 60
-    end, priority = 9 },
-    ["Rune Strike"] = { spellId = 56815, icon = GetSpellTexture(56815), condition = function()
+    end },
+    ["Rune Strike"] = { spellId = 56815, color = { r = 0.8, g = 0.8, b = 0.8 }, priority = 10, condition = function()
         return UnitPower("player") >= 30
-    end, priority = 10 },
-    ["Icy Touch"] = { spellId = 45477, icon = GetSpellTexture(45477), condition = function()
+    end },
+    ["Icy Touch"] = { spellId = 45477, color = { r = 0.2, g = 0.2, b = 0.2 }, priority = 11, condition = function()
         local target = "target"
         if UnitExists(target) then
             return not HasFrostFever(target) and not HasCooldown(45477)
         end
         return false
-    end, priority = 11 },
-    ["Plague Strike"] = { spellId = 45462, icon = GetSpellTexture(45462), condition = function()
+    end },
+    ["Plague Strike"] = { spellId = 45462, color = { r = 0.4, g = 0.4, b = 0.4 }, priority = 12, condition = function()
         local target = "target"
         if UnitExists(target) then
             return not HasBloodPlague(target) and not HasCooldown(45462)
         end
         return false
-    end, priority = 12 },
-    ["Blood Boil"] = { spellId = 48721, icon = GetSpellTexture(48721), condition = function()
+    end },
+    ["Blood Boil"] = { spellId = 48721, color = { r = 1, g = 0.5, b = 0 }, priority = 13, condition = function()
         local enemies = GetNumEnemiesWithinRange(10)
         if AuraUtil.FindAuraByName("Crimson Scourge", "player") then
             return enemies >= 1 and not HasCooldown(48721)
         else
             return enemies >= 4 and AreBloodRunesAvailable() and not HasCooldown(48721)
         end
-    end, priority = 13 },
-    ["Heart Strike"] = { spellId = 55050, icon = GetSpellTexture(55050), condition = function()
+    end },
+    ["Heart Strike"] = { spellId = 55050, color = { r = 0.5, g = 0, b = 0 }, priority = 14, condition = function()
         local enemies = GetNumEnemiesWithinRange(10)
         return enemies <= 3 and AreBloodRunesAvailable() and not HasCooldown(55050)
-    end, priority = 14 },
-    ["Pestilence"] = { spellId = 50842, icon = GetSpellTexture(50842), condition = function()
+    end },
+    ["Pestilence"] = { spellId = 50842, color = { r = 0.3, g = 0.3, b = 0.3 }, priority = 15, condition = function()
         return HasFrostFever("target") and AuraUtil.FindAuraByName("Blood Plague", "target") and not HasCooldown(50842)
-    end, priority = 15 },
-    ["Death Strike"] = { spellId = 49998, icon = GetSpellTexture(49998), condition = function()
+    end },
+    ["Death Strike"] = { spellId = 49998, color = { r = 0.1, g = 0.1, b = 0.1 }, priority = 16, condition = function()
         return IsUsableSpell(49998) and not HasCooldown(49998)
-    end, priority = 16 },
-    ["Death and Decay"] = { spellId = 43265, icon = GetSpellTexture(43265), condition = function()
+    end },
+    ["Death and Decay"] = { spellId = 43265, color = { r = 0.7, g = 0.7, b = 0.7 }, priority = 17, condition = function()
         local enemies = GetNumEnemiesWithinRange(10)
         return enemies >= 2 and (AreUnholyRunesAvailable() or AreDeathRunesAvailable()) and not HasCooldown(43265)
-    end, priority = 17 },
+    end },
 }
 
 local function UpdateAbilityIcon()
@@ -145,36 +145,22 @@ local function UpdateAbilityIcon()
     end
 
     local highestPriority = 99
-    local selectedAbility = nil
+    local selectedColor = { r = 0, g = 0, b = 0 } -- Default to black
 
     for name, ability in pairs(abilities) do
         if ability.condition() and ability.priority < highestPriority then
             highestPriority = ability.priority
-            selectedAbility = ability
+            selectedColor = ability.color
         end
     end
 
-    if selectedAbility then
-        frame.icon:SetTexture(selectedAbility.icon)
-    else
-        frame.icon:SetColorTexture(0, 0, 0, 1) -- Set the icon to black if no conditions are met
-    end
+    frame.icon:SetColorTexture(selectedColor.r, selectedColor.g, selectedColor.b, 1)
 end
 
 frame:SetScript("OnEvent", function(self, event, ...)
-    if event == "COMBAT_LOG_EVENT_UNFILTERED" then
-        -- Just update the ability icon on any combat log event
-        UpdateAbilityIcon()
-    elseif event == "PLAYER_REGEN_DISABLED" then
-        -- Player has entered combat
-        UpdateAbilityIcon()
-    elseif event == "PLAYER_REGEN_ENABLED" then
-        -- Player has left combat
+    if event == "COMBAT_LOG_EVENT_UNFILTERED" or event == "PLAYER_TARGET_CHANGED" or event == "UNIT_AURA" or event == "RUNE_POWER_UPDATE" or event == "PLAYER_REGEN_DISABLED" or event == "PLAYER_REGEN_ENABLED" then
         UpdateAbilityIcon()
     elseif event == "PLAYER_LOGIN" then
-        -- When the player logs in
         UpdateAbilityIcon()
     end
 end)
-
-UpdateAbilityIcon()

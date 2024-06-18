@@ -1,6 +1,8 @@
 ## Interface: 40300
 ## Title: DK Ability Helper
-## Notes: Suggests the best ability to use for Blood Death Knight
+## Notes: Suggests the best ability to use for Death Knight
 ## Author: YourName
 
-DKAbilityHelper.lua
+Main.lua
+FrameHandler.lua
+Modules\DKBloodSpec.lua
