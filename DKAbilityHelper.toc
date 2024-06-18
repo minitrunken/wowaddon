@@ -1,6 +1,0 @@
-## Interface: 40300
-## Title: DK Ability Helper
-## Notes: Suggests the best ability to use for Blood Death Knight
-## Author: YourName
-
-DKAbilityHelper.lua
