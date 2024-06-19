@@ -5,6 +5,8 @@ addonTable.FrameHandler = addonTable.FrameHandler or {}
 local frameHandler = addonTable.FrameHandler
 
 addonTable.debugMode = false  -- Initial debug mode status
+addonTable.autoTauntEnabled = false -- Initial auto taunt status
+addonTable.targetMarkEnabled = false -- Initial target mark status
 
 local function CreateStyledButton(name, parent, width, height, text)
     local button = CreateFrame("Button", name, parent, "UIPanelButtonTemplate")
@@ -62,6 +64,26 @@ end
 function frameHandler.ToggleDebugMode()
     addonTable.debugMode = not addonTable.debugMode
     print("Debug mode is now " .. (addonTable.debugMode and "enabled" or "disabled"))
+end
+
+function frameHandler.ToggleAutoTaunt()
+    addonTable.autoTauntEnabled = not addonTable.autoTauntEnabled
+    print("Auto Taunt is now " .. (addonTable.autoTauntEnabled and "enabled" or "disabled"))
+end
+
+function frameHandler.ToggleTargetMark()
+    addonTable.targetMarkEnabled = not addonTable.targetMarkEnabled
+    print("Target Mark is now " .. (addonTable.targetMarkEnabled and "enabled" or "disabled"))
+end
+
+function frameHandler.UpdateTargetMark()
+    if not addonTable.targetMarkEnabled then
+        SetRaidTarget("target", 0)
+        return
+    end
+    
+    if not UnitExists("target") then return end
+    SetRaidTarget("target", 4)
 end
 
 function frameHandler.Initialize()
@@ -133,9 +155,27 @@ function frameHandler.Initialize()
     dkFrostButton:SetPoint("TOP", dkUnholyButton, "BOTTOM", 0, -5)
     print("DK Frost button created")
 
+    -- Skapa en checkbox för Target Mark
+    local targetMarkCheckbox = CreateFrame("CheckButton", "TargetMarkCheckbox", mainFrame, "ChatConfigCheckButtonTemplate")
+    targetMarkCheckbox:SetPoint("BOTTOMLEFT", mainFrame, "BOTTOMLEFT", 5, 50)
+    targetMarkCheckbox:SetSize(20, 20)
+    getglobal(targetMarkCheckbox:GetName() .. 'Text'):SetText("Target Mark")
+    targetMarkCheckbox:SetScript("OnClick", function(self)
+        frameHandler.ToggleTargetMark()
+    end)
+
+    -- Skapa en checkbox för auto taunt
+    local autoTauntCheckbox = CreateFrame("CheckButton", "AutoTauntCheckbox", mainFrame, "ChatConfigCheckButtonTemplate")
+    autoTauntCheckbox:SetPoint("BOTTOMLEFT", mainFrame, "BOTTOMLEFT", 5, 30)
+    autoTauntCheckbox:SetSize(20, 20)
+    getglobal(autoTauntCheckbox:GetName() .. 'Text'):SetText("Auto Taunt")
+    autoTauntCheckbox:SetScript("OnClick", function(self)
+        frameHandler.ToggleAutoTaunt()
+    end)
+
     -- Skapa en checkbox för debug-läge
     local debugCheckbox = CreateFrame("CheckButton", "DebugCheckbox", mainFrame, "ChatConfigCheckButtonTemplate")
-    debugCheckbox:SetPoint("BOTTOM", mainFrame, "BOTTOM", 0, 30)
+    debugCheckbox:SetPoint("BOTTOMLEFT", mainFrame, "BOTTOMLEFT", 5, 10)
     debugCheckbox:SetSize(20, 20)
     getglobal(debugCheckbox:GetName() .. 'Text'):SetText("Debug")
     debugCheckbox:SetScript("OnClick", function(self)
@@ -143,6 +183,13 @@ function frameHandler.Initialize()
     end)
 
     print("UI elements created and configured")
+
+    -- Register for target change event
+    local targetFrame = CreateFrame("Frame")
+    targetFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
+    targetFrame:SetScript("OnEvent", function(self, event, ...)
+        frameHandler.UpdateTargetMark()
+    end)
 end
 
 addonTable.frameHandler = frameHandler

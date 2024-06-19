@@ -126,7 +126,8 @@ end
 
 
 
- local abilities = {
+
+local abilities = {
     ["Death and Decay"] = { spellId = 43265, color = { r = 0.7, g = 0.7, b = 0.7 }, priority = 1, condition = function()
         local enemies = GetNumEnemiesWithinRange(10)
         local target = "target"
@@ -180,27 +181,35 @@ end
         local target = "target"
         return UnitExists(target) and UnitHealth("player") / UnitHealthMax("player") < 0.40 and IsAbilityUsable(46584)
     end },
-    ["Death Pact"] = { spellId = 48743, color = { r = 1, g = 0, b = 1 }, priority = 9, condition = function()
+    ["Death Grip"] = { spellId = 49576, color = { r = 0.6, g = 1, b = 0.6 }, priority = 9, condition = function()
+        local target = "target"
+        return UnitAffectingCombat("player") and UnitExists(target) and not UnitIsDead(target) and UnitHealth(target) / UnitHealthMax(target) <= 0.99 and UnitThreatSituation("player", target) ~= 3 and IsAbilityUsable(49576) and addonTable.autoTauntEnabled
+    end },
+    ["Dark Command"] = { spellId = 56222, color = { r = 0.5, g = 0.5, b = 0 }, priority = 10, condition = function()
+        local target = "target"
+        return UnitAffectingCombat("player") and UnitExists(target) and not UnitIsDead(target) and UnitHealth(target) / UnitHealthMax(target) <= 0.99 and UnitThreatSituation("player", target) ~= 3 and IsAbilityUsable(56222) and addonTable.autoTauntEnabled
+    end },
+    ["Death Pact"] = { spellId = 48743, color = { r = 1, g = 0, b = 1 }, priority = 11, condition = function()
         local target = "target"
         return UnitExists(target) and UnitHealth("player") / UnitHealthMax("player") < 0.40 and UnitExists("pet") and IsAbilityUsable(48743)
     end },
-    ["Horn of Winter"] = { spellId = 57330, color = { r = 0, g = 1, b = 1 }, priority = 10, condition = function()
+    ["Horn of Winter"] = { spellId = 57330, color = { r = 0, g = 1, b = 1 }, priority = 12, condition = function()
         local target = "target"
         return UnitExists(target) and not AuraUtil.FindAuraByName("Horn of Winter", "player") and IsAbilityUsable(57330)
     end },
-    ["Bone Shield"] = { spellId = 49222, color = { r = 0.5, g = 0.5, b = 0.5 }, priority = 11, condition = function()
+    ["Bone Shield"] = { spellId = 49222, color = { r = 0.5, g = 0.5, b = 0.5 }, priority = 13, condition = function()
         local target = "target"
         return UnitExists(target) and not AuraUtil.FindAuraByName("Bone Shield", "player") and IsAbilityUsable(49222)
     end },
-    ["Dancing Rune Weapon"] = { spellId = 49028, color = { r = 0.3, g = 0.3, b = 0.3 }, priority = 12, condition = function()
+    ["Dancing Rune Weapon"] = { spellId = 49028, color = { r = 0.3, g = 0.3, b = 0.3 }, priority = 14, condition = function()
         local target = "target"
         return UnitExists(target) and UnitPower("player") >= 60 and IsAbilityUsable(49028)
     end },
-    ["Rune Strike"] = { spellId = 56815, color = { r = 0.8, g = 0.8, b = 0.8 }, priority = 13, condition = function()
+    ["Rune Strike"] = { spellId = 56815, color = { r = 0.8, g = 0.8, b = 0.8 }, priority = 15, condition = function()
         local target = "target"
         return UnitExists(target) and UnitPower("player") >= 30 and IsAbilityUsable(56815)
     end },
-    ["Blood Boil"] = { spellId = 48721, color = { r = 1, g = 0.5, b = 0 }, priority = 14, condition = function()
+    ["Blood Boil"] = { spellId = 48721, color = { r = 1, g = 0.5, b = 0 }, priority = 16, condition = function()
         local enemies = GetNumEnemiesWithinRange(10)
         local target = "target"
         if UnitExists(target) then
@@ -212,26 +221,26 @@ end
         end
         return false
     end },
-    ["Heart Strike"] = { spellId = 55050, color = { r = 0.5, g = 0, b = 0 }, priority = 15, condition = function()
+    ["Heart Strike"] = { spellId = 55050, color = { r = 0.5, g = 0, b = 0 }, priority = 17, condition = function()
         local enemies = GetNumEnemiesWithinRange(10)
         local target = "target"
         return UnitExists(target) and enemies <= 3 and AreBloodRunesAvailable() and IsAbilityUsable(55050)
     end },
-    ["Death Strike"] = { spellId = 49998, color = { r = 0.1, g = 0.1, b = 0.1 }, priority = 16, condition = function()
+    ["Death Strike"] = { spellId = 49998, color = { r = 0.1, g = 0.1, b = 0.1 }, priority = 18, condition = function()
         local target = "target"
         return UnitExists(target) and IsUsableSpell(49998) and IsAbilityUsable(49998)
     end },
 }
 
 if not HasLearnedSpell(77575) then
-    abilities["Icy Touch"] = { spellId = 45477, color = { r = 0.2, g = 0.2, b = 0.2 }, priority = 17, condition = function()
+    abilities["Icy Touch"] = { spellId = 45477, color = { r = 0.2, g = 0.2, b = 0.2 }, priority = 19, condition = function()
         local target = "target"
         if UnitExists(target) then
             return not HasFrostFever(target) and IsAbilityUsable(45477)
         end
         return false
     end }
-    abilities["Plague Strike"] = { spellId = 45462, color = { r = 0.4, g = 0.4, b = 0.4 }, priority = 18, condition = function()
+    abilities["Plague Strike"] = { spellId = 45462, color = { r = 0.4, g = 0.4, b = 0.4 }, priority = 20, condition = function()
         local target = "target"
         if UnitExists(target) then
             return not HasBloodPlague(target) and IsAbilityUsable(45462)
@@ -239,6 +248,7 @@ if not HasLearnedSpell(77575) then
         return false
     end }
 end
+
 
 
     local function UpdateAbilityIcon()

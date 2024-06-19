@@ -7,6 +7,8 @@ addonTable.FrameHandler = addonTable.FrameHandler or {}
 
 local frameHandler = addonTable.FrameHandler
 
+addonTable.autoTauntEnabled = false  -- Initialisera variabeln
+
 -- När addon laddas, initialisera ramhanteraren
 local function OnAddonLoaded(event, name)
     if name == addonName then
