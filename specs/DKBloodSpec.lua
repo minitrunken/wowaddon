@@ -17,7 +17,7 @@ function DKBloodSpec.Initialize()
     frame:SetSize(25, 25)
     frame:SetPoint("TOP", UIParent, "TOP", 0, -10)
 
-    frame.icon = frame:CreateTexture(nil, "BACKGROUND")
+    frame.icon = frame:CreateTexture(nil, "BORDER")
     frame.icon:SetAllPoints(true)
 
     frame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")

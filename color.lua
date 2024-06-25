@@ -4,8 +4,8 @@ local frame = CreateFrame("Frame")
 local ignoreErrorListMessages = {
     ["Not enough runic power"] = {r = 0.5, g = 0.0, b = 0.5, newText = "You need more runic power!"}, -- Purple
     ["There is nothing to attack."] = {r = 1.0, g = 1.0, b = 0.0, newText = "No target to attack!"}, -- Yellow
-    ["Target needs to be in front of you."] = {r = 0.0, g = 1.0, b = 0.0, newText = "Your target must be in front!"}, -- Green
-    ["You are facing the wrong way!"] = {r = 0.0, g = 1.0, b = 0.0, newText = "Turn around!"}, -- Green
+    ["Target needs to be in front of you."] = {r = 0.0, g = 1.0, b = 0.8, newText = "Your target must be in front!"}, -- Green
+    ["You are facing the wrong way!"] = {r = 0.0, g = 1.0, b = 0.8, newText = "Turn around!"}, -- Green
     ["Ability is not ready yet."] = {r = 0.0, g = 1.0, b = 1.0, newText = "Ability is on cooldown!"}, -- Turquoise
     ["You are too far away!"] = {r = 1.0, g = 0.5, b = 0.0, newText = "Move closer!"}, -- Orange
     ["Out of range."] = {r = 0.0, g = 0.5, b = 0.0, newText = "Target is too far!"} -- Dark Green
@@ -14,7 +14,7 @@ local ignoreErrorListMessages = {
 -- Create a new frame for the color-changing box
 local colorBox = CreateFrame("Frame", nil, UIParent)
 colorBox:SetSize(25, 25)
-colorBox:SetPoint("TOP", UIParent, "TOP", 150, -10)
+colorBox:SetPoint("TOP", UIParent, "TOP", 0, -10)
 colorBox.texture = colorBox:CreateTexture(nil, "BACKGROUND")
 colorBox.texture:SetAllPoints(colorBox)
 colorBox.texture:SetColorTexture(0, 0, 0) -- Default to black
@@ -29,6 +29,7 @@ UIErrorsFrame:SetPoint("CENTER", errorFrameAnchor, "CENTER")
 -- Function to reset the color box to black after a delay
 local function ResetColorBox()
     colorBox.texture:SetColorTexture(0, 0, 0)
+	colorBox.texture:SetDrawLayer("BACKGROUND")
 end
 
 -- Function to handle UI error messages
@@ -40,6 +41,7 @@ local function OnUIErrorMessage(_, _, message)
         UIErrorsFrame:AddMessage(displayText, config.r, config.g, config.b) -- show message in defined color
         
         -- Change the color of the color box
+		colorBox.texture:SetDrawLayer("OVERLAY")
         colorBox.texture:SetColorTexture(config.r, config.g, config.b)
         
         -- Reset the color box to black after 3 seconds
